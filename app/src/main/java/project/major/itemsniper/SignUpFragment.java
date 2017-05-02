@@ -39,6 +39,8 @@ public class SignUpFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
+    
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
