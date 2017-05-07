@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/white"
+    android:padding="5dp">
+
+    <ImageView
+        android:src="@drawable/notepad"
+        android:layout_width="60dp"
+        android:layout_height="60dp" />
+
+    <TextView
+        android:id="@+id/consumer_register_title"
+        style="@style/shadowText"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:textColor="@color/pictonBlue"
+        android:text="@string/consumer_register_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/consumer_register_form"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="400dp">
+
+        <LinearLayout
+            android:id="@+id/first_and_last_consumer"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/consumer_first_name_field"
+                style="@style/sniperTextField"
+                android:hint="First Name"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/consumer_last_name_field"
+                style="@style/sniperTextField"
+                android:hint="Last Name"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <EditText
+            android:id="@+id/consumer_email_field"
+            style="@style/sniperTextField"
+            android:hint="Email Address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/consumer_password_field"
+            style="@style/sniperTextField"
+            android:inputType="textPassword"
+            android:hint="@string/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/confirm_consumer_password_field"
+            style="@style/sniperTextField"
+            android:inputType="textPassword"
+            android:hint="@string/password_confirmation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:background="@drawable/green_button"
+            android:textColor="@color/white"
+            android:id="@+id/consumer_next_button"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="@string/next_text"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/loadingPanel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+    </RelativeLayout>
+
+</LinearLayout>

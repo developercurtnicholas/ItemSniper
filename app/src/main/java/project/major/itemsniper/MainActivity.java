@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,8 +23,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
 
+
+
     @Override
     public void onAttachFragment(android.app.Fragment fragment) {
         super.onAttachFragment(fragment);
@@ -58,16 +63,14 @@ public class MainActivity extends AppCompatActivity {
         initializeDrawer();
         inititializeToolbarAndTabs();
         initializePager();
-
     }
+
 
     private void inititializeToolbarAndTabs(){
         toolbar = (Toolbar)findViewById(R.id.main_toolbar);
         this.setSupportActionBar(toolbar);
 
-
         EditText t = (EditText)findViewById(R.id.toolbar_search);
-
 
         Drawable d = new ScaleDrawable(R.drawable.snipe,getApplicationContext()).scale(105, 80);
         t.setCompoundDrawablesWithIntrinsicBounds(d,null,null,null);

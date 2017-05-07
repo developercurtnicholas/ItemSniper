@@ -26,7 +26,6 @@ public class InitialActivity extends AppCompatActivity{
     }
 
     private void createFragments(){
-        fragments.add(new SignUpFragment());
         fragments.add(new SignInFragment());
     }
 
