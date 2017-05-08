@@ -7,13 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 /**
  * Created by Kurt on 3/26/2017.
  */
 public class SignUpFragment extends Fragment {
     private Button signIng;
-    private Button showMap;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,14 +33,6 @@ public class SignUpFragment extends Fragment {
             }
         });
 
-        showMap = (Button)view.findViewById(R.id.business );
-        showMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent iMap = new Intent(getContext(),MapActivity.class);
-                startActivity(iMap);
-            }
-        });
         return view;
 }
 
@@ -48,6 +40,8 @@ public class SignUpFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
+
+    
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
