@@ -13,6 +13,7 @@ import android.widget.Button;
  */
 public class SignUpFragment extends Fragment {
     private Button signIng;
+    private Button showMap;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +30,15 @@ public class SignUpFragment extends Fragment {
             public void onClick(View v) {
                 Intent i = new Intent(getContext(),MainActivity.class);
                 startActivity(i);
+            }
+        });
+
+        showMap = (Button)view.findViewById(R.id.business );
+        showMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iMap = new Intent(getContext(),MapActivity.class);
+                startActivity(iMap);
             }
         });
         return view;

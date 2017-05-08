@@ -1,10 +1,7 @@
 package project.major.itemsniper;
 
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -12,22 +9,15 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.xmlpull.v1.XmlPullParser;
 
 import java.util.ArrayList;
 
@@ -66,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         this.setSupportActionBar(toolbar);
 
 
-        EditText t = (EditText)findViewById(R.id.toolbar_search);
+        final EditText t = (EditText)findViewById(R.id.toolbar_search);
 
 
         Drawable d = new ScaleDrawable(R.drawable.snipe,getApplicationContext()).scale(105, 80);
@@ -81,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setIcon(
                 R.drawable.storeswhitenocircle
         ));
+
+
     }
 
     private void initializePager(){
@@ -153,4 +145,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         return  true;
     }
+
+
 }
