@@ -61,16 +61,6 @@
 
         </activity>
 
-        <activity android:name=".ConsumerRegisterActivity"
-            android:theme="@style/NoActionBarAndNoTitle">
-
-        </activity>
-
-        <activity android:name=".UploadPictureActivity"
-            android:theme="@style/NoActionBarAndNoTitle">
-
-        </activity>
-
     </application>
 
 </manifest>

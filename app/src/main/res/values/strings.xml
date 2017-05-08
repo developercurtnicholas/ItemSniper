@@ -18,8 +18,4 @@
     <string name="password_confirmation">Re-Enter Password</string>
     <string name="next_text">Next</string>
 
-    <string name="consumer_register_title">Register With Us!</string>
-    <string name="password">Password</string>
-    <string name="password_confirmation">Re-Enter Password</string>
-    <string name="next_text">Next</string>
 </resources>

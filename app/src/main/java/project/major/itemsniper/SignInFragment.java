@@ -62,105 +62,7 @@ public class SignInFragment extends Fragment {
         return view;
     }
 
-    private void registerButtonListeners(){
 
-        //Register the listener for sign in button
-        if(signIn != null){
-
-            signIn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //The action we take here
-                    onSignInClicked();
-                }
-            });
-        }
-
-        //Register listener for consumer button
-        if(consumerSignUp != null){
-
-            consumerSignUp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    onConsumerClicked();
-                }
-            });
-
-        }
-
-        //Register listener for bussiness button
-        if(businessSignUp != null){
-
-            businessSignUp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    onBusinessClicked();
-                }
-            });
-        }
-    }
-
-    //Do this when the sign in button is clicked
-    private void onSignInClicked(){
-        loginInUser();
-    }
-
-    //Log the user in
-    private void loginInUser(){
-
-        Response.Listener<String> listener = new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                try{
-                    JSONObject o = new JSONObject(response);
-                    if(o.getBoolean("success")){
-
-
-                        Log.i("Response",response);
-
-                        //The username and passwords match
-                        SharedPreferences.Editor preferences = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE).edit();
-                        JSONObject user = o.getJSONArray("user").getJSONObject(0);
-                        preferences.putString("email",user.getString("email"));
-                        preferences.putString("firstName", user.getString("FName"));
-                        preferences.putString("lastName", user.getString("LName"));
-                        preferences.putBoolean("loggedIn", true);
-                        preferences.commit();
-
-
-
-
-                        loadUserData();
-
-
-
-                    }else{
-                        Toast.makeText(getContext(),"Invalid Login",Toast.LENGTH_LONG).show();
-                    }
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-
-        String enteredEmail = email.getText().toString();
-        String enteredPass = password.getText().toString();
-        LoginRequest login = new LoginRequest(enteredEmail,enteredPass,listener,errorListener);
-        queue.add(login);
-
-    }
 
     private void loadUserData(){
 
@@ -284,24 +186,7 @@ public class SignInFragment extends Fragment {
 
     }
 
-    private void loadUserData(){
 
-        Intent i = new Intent(getContext(),MainActivity.class);
-        startActivity(i);
-    }
-
-    //Do this when the consumer button is clicked
-    private void onConsumerClicked(){
-
-        //Start the activity to register the consumer
-        Intent intent = new Intent(getContext(),ConsumerRegisterActivity.class);
-        startActivity(intent);
-    }
-
-    //Do this when the business button is clicked
-    private void onBusinessClicked(){
-
-    }
 
 
     @Override
@@ -310,15 +195,7 @@ public class SignInFragment extends Fragment {
 
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        SharedPreferences preferences = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE);
-        if(preferences.getBoolean("loggedIn",false)){
 
-            loadUserData();
-        }
-    }
 
     @Override
     public void onStart() {
