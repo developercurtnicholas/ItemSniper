@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         final EditText t = (EditText)findViewById(R.id.toolbar_search);
 
         //EditText t = (EditText)findViewById(R.id.toolbar_search);
-
+        EditText t = (EditText)findViewById(R.id.toolbar_search);
 
         Drawable d = new ScaleDrawable(R.drawable.snipe,getApplicationContext()).scale(105, 80);
         t.setCompoundDrawablesWithIntrinsicBounds(d,null,null,null);
