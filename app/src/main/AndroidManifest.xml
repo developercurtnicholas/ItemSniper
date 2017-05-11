@@ -68,6 +68,14 @@
             android:theme="@style/NoActionBarAndNoTitle">
 
         </activity>
+        <activity android:name=".LocationPickerActivity"
+            android:theme="@android:style/Theme.Dialog">
+
+        </activity>
+        <activity android:name=".ItemUploadActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+
+        </activity>
 
     </application>
 

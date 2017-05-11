@@ -12,6 +12,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
+<<<<<<< HEAD
+=======
+import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.clustering.ClusterItem;
+>>>>>>> 9ad1b7139360698a8fff160370783961a234bece
 
 import org.json.JSONObject;
 
@@ -77,6 +82,10 @@ public class Item implements Response.Listener<Bitmap>,Response.ErrorListener {
             this.vendorId = o.getString("vendor_id");
             this.imageUrl = o.getString("url");
             this.context = c;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9ad1b7139360698a8fff160370783961a234bece
             //Load the bitmap for the image
             getImageBitmap();
 
@@ -84,6 +93,7 @@ public class Item implements Response.Listener<Bitmap>,Response.ErrorListener {
             e.printStackTrace();
         }
     }
+<<<<<<< HEAD
 
     public static int[] scaleProportional(Bitmap b,int amount,int lowest, int highest){
 
@@ -122,6 +132,8 @@ public class Item implements Response.Listener<Bitmap>,Response.ErrorListener {
 
         return scaled;
     }
+=======
+>>>>>>> 9ad1b7139360698a8fff160370783961a234bece
     public Item(){
 
     }
@@ -263,4 +275,8 @@ public class Item implements Response.Listener<Bitmap>,Response.ErrorListener {
         this.image = response;
         Log.i("Success","got an image");
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9ad1b7139360698a8fff160370783961a234bece
 }

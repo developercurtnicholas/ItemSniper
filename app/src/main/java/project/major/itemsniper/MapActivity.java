@@ -70,6 +70,7 @@ GoogleApiClient.OnConnectionFailedListener,
     LocationRequest mLocationRequest;
     Location mLastLocation;
     Marker mCurrLocationMarker;
+    MarkerOptions markerOptions;
     ArrayList<LatLng> MarkerPoints;
     Button mapNorm;
     Button mapHybrid;
@@ -85,8 +86,11 @@ GoogleApiClient.OnConnectionFailedListener,
     private  Button toggle;
     private Button next;
     private Button previous;
+<<<<<<< HEAD
     private int pos = 0;
     private EditText search;
+=======
+>>>>>>> 9ad1b7139360698a8fff160370783961a234bece
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,13 +139,18 @@ GoogleApiClient.OnConnectionFailedListener,
 
         String query = getIntent().getStringExtra("query");
         if(query != null && query.equalsIgnoreCase(" ") && query.equalsIgnoreCase("")){
+<<<<<<< HEAD
             Search.searchForItem(query, this, this, getApplicationContext());
+=======
+            Search.searchForItem(query,this,this,getApplicationContext());
+>>>>>>> 9ad1b7139360698a8fff160370783961a234bece
         }
     }
 
 
     private void next(){
 
+<<<<<<< HEAD
             if(currentItemResults != null && pos <= currentItemResults.size()-1){
                 Item x = currentItemResults.get(pos);
                 double lat = x.getLatitude();
@@ -198,6 +207,21 @@ GoogleApiClient.OnConnectionFailedListener,
 
     private void setMapType(){
 
+=======
+    }
+
+    private void prev(){
+
+    }
+
+    private void setNextAndPrev(){
+        this.next = (Button)findViewById(R.id.next_result);
+        this.previous = (Button)findViewById(R.id.previous_result);
+    }
+
+    private void setMapType(){
+
+>>>>>>> 9ad1b7139360698a8fff160370783961a234bece
         Button toggle = (Button)findViewById(R.id.map_type_norm);
         toggle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,6 +229,7 @@ GoogleApiClient.OnConnectionFailedListener,
 
                 MAP_TYPE++;
 
+<<<<<<< HEAD
                 if (MAP_TYPE > 3) {
                     MAP_TYPE = 1;
                 }
@@ -219,6 +244,22 @@ GoogleApiClient.OnConnectionFailedListener,
                         break;
                     }
                     case 3: {
+=======
+                if(MAP_TYPE > 3){
+                    MAP_TYPE = 1;
+                }
+
+                switch (MAP_TYPE){
+                    case 1:{
+                     mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                        break;
+                    }
+                    case 2:{
+                        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                        break;
+                    }
+                    case 3:{
+>>>>>>> 9ad1b7139360698a8fff160370783961a234bece
                         mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
                         break;
                     }
@@ -230,6 +271,7 @@ GoogleApiClient.OnConnectionFailedListener,
     public void onMapSearch(View view){
         EditText locat = (EditText) findViewById(R.id.map_search);
         String location = locat.getText().toString();
+<<<<<<< HEAD
 
         String item = location;//treat it as an item query
 
@@ -239,6 +281,18 @@ GoogleApiClient.OnConnectionFailedListener,
         Search.searchForItem(item, this, this, getApplicationContext());
     }
 
+=======
+
+        String item = location;//treat it as an item query
+
+        List<Address> addressList = null;
+
+        //Issue query to the server to search the database for items that match
+        Search.searchForItem(item, this, this, getApplicationContext());
+
+    }
+
+>>>>>>> 9ad1b7139360698a8fff160370783961a234bece
     private void  calculatePaths(){
     }
 
@@ -254,6 +308,10 @@ GoogleApiClient.OnConnectionFailedListener,
         //When a cluster item is long clicked
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9ad1b7139360698a8fff160370783961a234bece
         //Set an Onclick method for markers
         mClusterManager
                 .setOnClusterItemClickListener(
@@ -283,7 +341,11 @@ GoogleApiClient.OnConnectionFailedListener,
 
 
                                     mMap.moveCamera(CameraUpdateFactory.newLatLng(origin));
+<<<<<<< HEAD
                                     mMap.animateCamera(CameraUpdateFactory.zoomTo(60));
+=======
+                                    mMap.animateCamera(CameraUpdateFactory.zoomTo(120));
+>>>>>>> 9ad1b7139360698a8fff160370783961a234bece
 
 
                                     //Get the distance between points
@@ -376,6 +438,10 @@ GoogleApiClient.OnConnectionFailedListener,
      private void addItems() {
          mMap.clear();
          mClusterManager.clearItems();
+<<<<<<< HEAD
+=======
+         mCurrLocationMarker = mMap.addMarker(markerOptions);
+>>>>>>> 9ad1b7139360698a8fff160370783961a234bece
          for(Item x : currentItemResults){
              mClusterManager.addItem(new MyItem(x.getLatitude(),x.getLongitude(),x.getName(),"YES"));
          }
@@ -489,7 +555,7 @@ GoogleApiClient.OnConnectionFailedListener,
 
         //Place current location marker
         LatLng latlng = new LatLng(location.getLatitude(),location.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions();
+         markerOptions = new MarkerOptions();
         markerOptions.position(latlng);
         markerOptions.title("Current Position");
         markerOptions.snippet("   You are here");
@@ -584,6 +650,7 @@ GoogleApiClient.OnConnectionFailedListener,
     //Error
     @Override
     public void onErrorResponse(VolleyError error) {
+<<<<<<< HEAD
         PopUp.Manipulator m = new PopUp.Manipulator() {
             @Override
             public void manipulate(View v) {
@@ -598,6 +665,8 @@ GoogleApiClient.OnConnectionFailedListener,
         };
         PopUp p = PopUp.createInstance(R.layout.map_results_layout,m,true);
         p.show(getSupportFragmentManager(),"results");
+=======
+>>>>>>> 9ad1b7139360698a8fff160370783961a234bece
         error.printStackTrace();
     }
 
@@ -615,6 +684,7 @@ GoogleApiClient.OnConnectionFailedListener,
                 currentItemResults = new ArrayList<Item>();
                 currentItemResults = QueryParser.parseItemResults(response,getApplicationContext());
                 populateMap();
+<<<<<<< HEAD
                 PopUp.Manipulator m = new PopUp.Manipulator() {
                     @Override
                     public void manipulate(View v) {
@@ -629,6 +699,8 @@ GoogleApiClient.OnConnectionFailedListener,
                 };
                 PopUp p = PopUp.createInstance(R.layout.map_results_layout,m,true);
                 p.show(getSupportFragmentManager(),"results");
+=======
+>>>>>>> 9ad1b7139360698a8fff160370783961a234bece
             }else{
                 Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG).show();
             }

@@ -46,14 +46,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@color/pictonBlue">
+
+
         <Button
             android:id="@+id/previous_result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+<<<<<<< HEAD
             style="@style/shadowText"
             android:background="@drawable/round_white_container"
             android:layout_margin="5dp"
             android:textColor="@color/pictonBlue"
+=======
+>>>>>>> 9ad1b7139360698a8fff160370783961a234bece
             android:text="Previous"/>
 
         <Button

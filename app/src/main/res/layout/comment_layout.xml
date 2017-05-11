@@ -8,7 +8,11 @@
 
     <TextView
         android:id="@+id/comment_description"
+<<<<<<< HEAD
         android:textColor="@color/black"
+=======
+        style="@style/shadowText"
+>>>>>>> 9ad1b7139360698a8fff160370783961a234bece
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"/>
