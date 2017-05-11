@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -47,6 +49,13 @@ public class ItemActivity extends ViewActivity{
     private ListView commentListView;
     private Button comment;
 
+    private ViewPager pager;
+    private CustomPagerAdapter adapter;
+    private ArrayList<Fragment> pictureFragments = new ArrayList<>();
+    private ArrayList<String> display_pic_urls = new ArrayList<>();
+    private ArrayList<Bitmap> display_pic_bitmaps = new ArrayList<>();
+    private String[] itemDisplayPics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,19 +66,23 @@ public class ItemActivity extends ViewActivity{
 
     private void getExtras(){
         Intent i = getIntent();
-        Bundle extras = i.getExtras();
 
         this.name.setText(i.getStringExtra("name"));
         this.description.setText(i.getStringExtra("description"));
         this.imageUrl = "http://"+i.getStringExtra("url");
+        this.itemDisplayPics = i.getStringArrayExtra("display_pics");
         this.category.setText(i.getStringExtra("category"));
         this.distributedBy.setText(i.getStringExtra("distributed_by"));
         this.vendor_id = i.getStringExtra("vendor_id");
         this.price.setText(i.getIntExtra("price", -1)+"");
         this.id = i.getStringExtra("id");
 
+        //All network activity right here
         downloadProductImage();
         getComments();
+        createPictureFragments();
+        loadDisplayPicUrls();
+        /////////////////
     }
 
     private void initialize(){
@@ -91,7 +104,7 @@ public class ItemActivity extends ViewActivity{
                     public void manipulate(View v) {
 
                         Button b = (Button) v.findViewById(R.id.submit_comment);
-                        final EditText e = (EditText)v.findViewById(R.id.comment_field);
+                        final EditText e = (EditText) v.findViewById(R.id.comment_field);
                         b.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -100,8 +113,8 @@ public class ItemActivity extends ViewActivity{
                                 SharedPreferences preferences = getSharedPreferences("login", Context.MODE_PRIVATE);
 
                                 String first = preferences.getString("firstName", "Anonymous");
-                                String last = preferences.getString("lastName","Person");
-                                submitComment(first+" "+last,e.getText().toString(),id);
+                                String last = preferences.getString("lastName", "Person");
+                                submitComment(first + " " + last, e.getText().toString(), id);
 
 
                                 Toast.makeText(getApplicationContext(), "Submitting...", Toast.LENGTH_SHORT).show();
@@ -120,14 +133,95 @@ public class ItemActivity extends ViewActivity{
         getExtras();
     }
 
+
+    //LOAD THE URLS FOR THE DISPLAY PICS
+    private void loadDisplayPicUrls(){
+
+        Response.Listener<String> listener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("Response:",response);
+                try{
+                    JSONObject o = new JSONObject(response);
+                    JSONArray rows = o.getJSONArray("rows");
+
+                    for(int i = 0; i < rows.length();i++){
+                        JSONObject x = rows.getJSONObject(i);
+                        display_pic_urls.add(x.getString("url"));
+                    }
+                    loadDisplayPics();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("product_id",this.id);
+        params.put("fordisplay", "true");
+
+        ItemRequest request = new ItemRequest(params,listener,errorListener);
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(request);
+
+    }
+
+    //LOAD THE ACTUAL IMAGES FROM THE DISPLAY PIC URLS
+    private void loadDisplayPics(){
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        final int count = 0;
+        for(String url : display_pic_urls){
+
+            Response.Listener<Bitmap> listener = new Response.Listener<Bitmap>() {
+                @Override
+                public void onResponse(Bitmap b) {
+                    display_pic_bitmaps.add(b);
+                    int[] dimens = Item.scaleProportional(b,3,500,500);
+                    pictureFragments.add(ItemPictureFragment.creatInstance(b.createScaledBitmap(b,dimens[0],dimens[1],false)));
+                    adapter.setDataSource(pictureFragments);
+                }
+            };
+
+            Response.ErrorListener errorListener = new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                }
+            };
+            ImageRequest request = new ImageRequest(url,listener,0,0, ImageView.ScaleType.FIT_CENTER,null,errorListener);
+            queue.add(request);
+        }
+    }
+
+
+    //LOAD IN THE BITMAPS INTO THE PICTURE FRAGMENTS
+    private void createPictureFragments(){
+
+        this.pager = (ViewPager)findViewById(R.id.item_pager);
+        this.adapter = new CustomPagerAdapter(getSupportFragmentManager(),this.pictureFragments);
+        this.pager.setAdapter(adapter);
+    }
+
     private void downloadProductImage(){
 
         Response.Listener<Bitmap> listener = new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
 
-                image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                image.setImageBitmap(response.createScaledBitmap(response,300,300,false));
+                image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+                int[] dimens = Item.scaleProportional(response,3,500,1001);
+
+                image.setImageBitmap(response.createScaledBitmap(response,dimens[0],dimens[1],false));
             }
         };
 
@@ -174,8 +268,6 @@ public class ItemActivity extends ViewActivity{
                    } else {
                        return;
                    }
-
-
                } catch (JSONException e) {
                    e.printStackTrace();
 

@@ -2,6 +2,7 @@ package project.major.itemsniper;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Camera;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -12,10 +13,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -49,6 +53,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import project.major.itemsniper.Reusables.PopUp;
+
 /**
  * Created by carva on 5/5/2017.
  */
@@ -79,6 +85,8 @@ GoogleApiClient.OnConnectionFailedListener,
     private  Button toggle;
     private Button next;
     private Button previous;
+    private int pos = 0;
+    private EditText search;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +101,19 @@ GoogleApiClient.OnConnectionFailedListener,
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        search = (EditText)findViewById(R.id.map_search);
+        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                Log.i("SEARCH:", "Search Clicked");
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    onMapSearch(v);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         setMapType();
         setNextAndPrev();
@@ -114,22 +135,65 @@ GoogleApiClient.OnConnectionFailedListener,
 
         String query = getIntent().getStringExtra("query");
         if(query != null && query.equalsIgnoreCase(" ") && query.equalsIgnoreCase("")){
-            Search.searchForItem(query,this,this,getApplicationContext());
+            Search.searchForItem(query, this, this, getApplicationContext());
         }
     }
 
 
     private void next(){
 
+            if(currentItemResults != null && pos <= currentItemResults.size()-1){
+                Item x = currentItemResults.get(pos);
+                double lat = x.getLatitude();
+                double longi = x.getLongitude();
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(lat, longi)));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+                if(pos == currentItemResults.size()-1){
+
+                }else{
+                    pos++;
+                }
+
+            }else{
+                Toast.makeText(getApplicationContext(),"No more results",Toast.LENGTH_LONG).show();
+            }
     }
 
-    private void prev(){
+    private void prev() {
+
+        if (currentItemResults != null && pos >= 0) {
+
+            Item x = currentItemResults.get(pos);
+            double lat = x.getLatitude();
+            double longi = x.getLongitude();
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(lat, longi)));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+            if(pos == 0){
+
+            }else{
+                pos--;
+            }
+
+        } else {
+            Toast.makeText(getApplicationContext(), "No more results", Toast.LENGTH_LONG).show();
+        }
 
     }
-
     private void setNextAndPrev(){
         this.next = (Button)findViewById(R.id.next_result);
+        this.next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                next();
+            }
+        });
         this.previous = (Button)findViewById(R.id.previous_result);
+        this.previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prev();
+            }
+        });
     }
 
     private void setMapType(){
@@ -141,20 +205,20 @@ GoogleApiClient.OnConnectionFailedListener,
 
                 MAP_TYPE++;
 
-                if(MAP_TYPE > 3){
+                if (MAP_TYPE > 3) {
                     MAP_TYPE = 1;
                 }
 
-                switch (MAP_TYPE){
-                    case 1:{
-                     mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                switch (MAP_TYPE) {
+                    case 1: {
+                        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                         break;
                     }
-                    case 2:{
+                    case 2: {
                         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
                         break;
                     }
-                    case 3:{
+                    case 3: {
                         mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
                         break;
                     }
@@ -173,7 +237,6 @@ GoogleApiClient.OnConnectionFailedListener,
 
         //Issue query to the server to search the database for items that match
         Search.searchForItem(item, this, this, getApplicationContext());
-
     }
 
     private void  calculatePaths(){
@@ -189,7 +252,6 @@ GoogleApiClient.OnConnectionFailedListener,
         mClusterManager.setRenderer(renderer);
 
         //When a cluster item is long clicked
-
 
 
         //Set an Onclick method for markers
@@ -221,7 +283,7 @@ GoogleApiClient.OnConnectionFailedListener,
 
 
                                     mMap.moveCamera(CameraUpdateFactory.newLatLng(origin));
-                                    mMap.animateCamera(CameraUpdateFactory.zoomTo(120));
+                                    mMap.animateCamera(CameraUpdateFactory.zoomTo(60));
 
 
                                     //Get the distance between points
@@ -522,6 +584,20 @@ GoogleApiClient.OnConnectionFailedListener,
     //Error
     @Override
     public void onErrorResponse(VolleyError error) {
+        PopUp.Manipulator m = new PopUp.Manipulator() {
+            @Override
+            public void manipulate(View v) {
+                TextView t = (TextView)v.findViewById(R.id.result_text);
+
+                if(t == null){
+                    Log.i("Null","view null");
+                }else{
+                    t.setText("Please check your internet connection");
+                }
+            }
+        };
+        PopUp p = PopUp.createInstance(R.layout.map_results_layout,m,true);
+        p.show(getSupportFragmentManager(),"results");
         error.printStackTrace();
     }
 
@@ -539,6 +615,20 @@ GoogleApiClient.OnConnectionFailedListener,
                 currentItemResults = new ArrayList<Item>();
                 currentItemResults = QueryParser.parseItemResults(response,getApplicationContext());
                 populateMap();
+                PopUp.Manipulator m = new PopUp.Manipulator() {
+                    @Override
+                    public void manipulate(View v) {
+                        TextView t = (TextView)v.findViewById(R.id.result_text);
+
+                        if(t == null){
+                            Log.i("Null","view null");
+                        }else{
+                            t.setText("We found "+currentItemResults.size()+ " results for you");
+                        }
+                    }
+                };
+                PopUp p = PopUp.createInstance(R.layout.map_results_layout,m,true);
+                p.show(getSupportFragmentManager(),"results");
             }else{
                 Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG).show();
             }

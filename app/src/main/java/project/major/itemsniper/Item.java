@@ -77,13 +77,50 @@ public class Item implements Response.Listener<Bitmap>,Response.ErrorListener {
             this.vendorId = o.getString("vendor_id");
             this.imageUrl = o.getString("url");
             this.context = c;
-
             //Load the bitmap for the image
             getImageBitmap();
 
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public static int[] scaleProportional(Bitmap b,int amount,int lowest, int highest){
+
+        Log.i("Original","width: "+ b.getWidth() + "height : " + b.getHeight());
+
+
+        int[] scaled = new int[2];
+        int width = b.getWidth()/amount;
+        int height = b.getHeight()/amount;
+
+        if(width >= height && width < lowest){
+
+            double greater = Math.max(b.getWidth(), b.getHeight());
+            double lesser = Math.min(b.getWidth(), b.getHeight());
+            Double ratio = (greater - lesser) / greater;
+            Double actual = ratio * lowest;
+
+            width = lowest;
+            height = lowest - actual.intValue();
+
+        }else if(height >= width && height < lowest){
+
+            double greater = Math.max(b.getWidth(), b.getHeight());
+            double lesser = Math.min(b.getWidth(), b.getHeight());
+            Double ratio = (greater - lesser) / greater;
+            Double actual = ratio * lowest;
+
+            height = lowest;
+            width = lowest - actual.intValue();
+        }
+
+        Log.i("Scaled","width: "+ width+ "height : " + height);
+
+        scaled[0] = width;
+        scaled[1] = height;
+
+        return scaled;
     }
     public Item(){
 
