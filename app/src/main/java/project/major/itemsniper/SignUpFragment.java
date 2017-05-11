@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 /**
  * Created by Kurt on 3/26/2017.
@@ -31,6 +32,7 @@ public class SignUpFragment extends Fragment {
                 startActivity(i);
             }
         });
+
         return view;
 }
 

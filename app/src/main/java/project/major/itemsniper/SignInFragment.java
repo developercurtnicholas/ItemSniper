@@ -62,6 +62,30 @@ public class SignInFragment extends Fragment {
         return view;
     }
 
+
+
+    private void loadUserData(){
+
+        Intent i = new Intent(getContext(),MainActivity.class);
+        startActivity(i);
+    }
+
+    //Do this when the consumer button is clicked
+    private void onConsumerClicked(){
+
+        //Start the activity to register the consumer
+        Intent intent = new Intent(getContext(),ConsumerRegisterActivity.class);
+        startActivity(intent);
+    }
+
+    //Do this when the business button is clicked
+    private void onBusinessClicked(){
+        Intent iMap = new Intent(getContext(),MapActivity.class);
+        Toast.makeText(getContext(),"business clicked", Toast.LENGTH_LONG).show();
+        startActivity(iMap);
+    }
+
+
     private void registerButtonListeners(){
 
         //Register the listener for sign in button
@@ -162,24 +186,7 @@ public class SignInFragment extends Fragment {
 
     }
 
-    private void loadUserData(){
 
-        Intent i = new Intent(getContext(),MainActivity.class);
-        startActivity(i);
-    }
-
-    //Do this when the consumer button is clicked
-    private void onConsumerClicked(){
-
-        //Start the activity to register the consumer
-        Intent intent = new Intent(getContext(),ConsumerRegisterActivity.class);
-        startActivity(intent);
-    }
-
-    //Do this when the business button is clicked
-    private void onBusinessClicked(){
-
-    }
 
 
     @Override
@@ -188,15 +195,7 @@ public class SignInFragment extends Fragment {
 
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        SharedPreferences preferences = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE);
-        if(preferences.getBoolean("loggedIn",false)){
 
-            loadUserData();
-        }
-    }
 
     @Override
     public void onStart() {
