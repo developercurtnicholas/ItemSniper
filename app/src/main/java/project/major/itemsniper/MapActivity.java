@@ -100,6 +100,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
          //Test locations
         for(int i =0; i< 10; i++){
+
             double offset = i / 60d;
             lat = lat + offset;
             lng = lng + offset;
