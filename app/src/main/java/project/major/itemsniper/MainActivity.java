@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -27,7 +29,15 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import project.major.itemsniper.Reusables.ScaleDrawable;
 
@@ -41,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Fragment> fragmentList;
     private Toolbar toolbar;
     private TabLayout tabLayout;
+    private EditText Search;
 
 
 
@@ -66,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
         this.setSupportActionBar(toolbar);
 
 
-
         final EditText t = (EditText)findViewById(R.id.toolbar_search);
 
 
@@ -84,6 +94,64 @@ public class MainActivity extends AppCompatActivity {
         ));
 
 
+        this.Search = (EditText)findViewById(R.id.toolbar_search);
+        this.Search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                Log.i("SEARCH:", "Search Clicked");
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    Log.i("SEARCH:", "Attempting search......");
+                    searchForItem(Search.getText().toString());
+                    return true;
+                }
+                return false;
+            }
+        });
+
+    }
+
+    ///////!!!!!THIS IS WHERE THE ACTUAL SEARCHING IS DONE!!!!
+    private void searchForItem(String query){
+
+        Log.i("SEARCH:","Preparing search.....");
+
+        Response.Listener listener = new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                //Query comes back from the server
+                try{
+                    JSONObject o = new JSONObject(response);
+                    boolean result = o.getBoolean("success");
+
+                    if(result){
+                        Intent i = new Intent(getApplicationContext(),MapActivity.class);
+                        startActivity(i);
+                    }else{
+                        Toast.makeText(getApplicationContext(),"Something went wrong", Toast.LENGTH_LONG).show();
+                    }
+
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                error.printStackTrace();
+            }
+        };
+        HashMap params = new HashMap<String,String>();
+        params.put("query",query);
+        //Create an item request
+        ItemRequest getItem = new ItemRequest(params,listener,errorListener);
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(getItem);
+        Log.i("SEARCH:", "Searching please wait for response.....");
     }
 
     private void initializePager(){

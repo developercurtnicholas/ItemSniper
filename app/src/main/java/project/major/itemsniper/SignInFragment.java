@@ -37,6 +37,26 @@ public class SignInFragment extends Fragment {
 
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        SharedPreferences preferences = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE);
+
+
+        if(preferences.getBoolean("loggedIn",false)){
+
+            //Person is already logged in
+            Intent i = new Intent(getContext(),MainActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+
+        }else{
+            //Person not logged in
+        }
+
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -153,9 +173,6 @@ public class SignInFragment extends Fragment {
                         preferences.putString("lastName", user.getString("LName"));
                         preferences.putBoolean("loggedIn", true);
                         preferences.commit();
-
-
-
 
                         loadUserData();
 
