@@ -30,6 +30,8 @@
                     android:hint="Snipe An Item"
                     android:fontFamily="Droid Sans Mono"
                     android:textSize="20dp"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
                     android:textColorHint="@color/silverGray"
                     android:padding="10dp"
                     android:textStyle="bold"

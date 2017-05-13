@@ -41,10 +41,8 @@ public class CustomClusterRenderer extends DefaultClusterRenderer<MyItem>{
     }
 
     protected void onBeforeClusterRendered(Cluster<MyItem>cluster,MarkerOptions markerOptions){
-        clusterIcon.setBackground(
-                ContextCompat.getDrawable(mContext, R.drawable.circle));
-        clusterIcon.setTextAppearance(R.style.AppTheme_WhiteTextAppearance);
-
+        clusterIcon.setBackground(ContextCompat.getDrawable(mContext, R.drawable.circle));
+        //clusterIcon.setTextAppearance(R.style.AppTheme_WhiteTextAppearance);
         //Cluster icon rendering
         final Bitmap icon = clusterIcon.makeIcon(String.valueOf(cluster.getSize()));
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
