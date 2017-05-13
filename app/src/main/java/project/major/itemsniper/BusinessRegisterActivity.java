@@ -1,8 +1,8 @@
 package project.major.itemsniper;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,21 +14,23 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by Kurt on 5/1/2017.
+ * Created by carva on 12/5/2017.
  */
-public class ConsumerRegisterActivity extends RegisterActivity {
+            //Will change what this extends. Custom register for business needed.
+public class BusinessRegisterActivity extends RegisterActivity{
 
     //Buttons
     private Button nextButton;
 
     //Edit texts
-    private EditText firstName;
-    private EditText lastName;
+    private EditText businessName;
+    private EditText category;
+    private EditText latitude;
+    private EditText longitude;
     private EditText email;
     private EditText pass;
     private EditText confirmPass;
@@ -36,44 +38,44 @@ public class ConsumerRegisterActivity extends RegisterActivity {
     ArrayList<EditText> fields;
 
 
-    public ConsumerRegisterActivity(){
-        super();
-    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.consumer_sign_up);
+        setContentView(R.layout.business_sign_up);
 
         //Get the UI elements from the layout
         instantiateUIElements();
 
         //Register listeners on them
         registerUiListeners();
-
     }
 
-    private void instantiateUIElements(){
+
+
+    private void instantiateUIElements() {
 
         //Instantiate UI elements
-        nextButton = (Button)findViewById(R.id.consumer_next_button);
+        nextButton = (Button)findViewById(R.id.business_next_button);
 
-        firstName = (EditText)findViewById(R.id.consumer_first_name_field);
-        lastName = (EditText)findViewById(R.id.consumer_last_name_field);
-        email = (EditText)findViewById(R.id.consumer_email_field);
-        pass = (EditText)findViewById(R.id.consumer_password_field);
-        confirmPass = (EditText)findViewById(R.id.confirm_consumer_password_field);
+        businessName = (EditText)findViewById(R.id.business_name_field);
+        category = (EditText)findViewById(R.id.business_category_field);
+        latitude = (EditText) findViewById(R.id.business_latitude);
+        longitude = (EditText) findViewById(R.id.business_longitude);
+        email = (EditText)findViewById(R.id.business_email_field);
+        pass = (EditText)findViewById(R.id.business_password_field);
+        confirmPass = (EditText)findViewById(R.id.confirm_business_password_field);
 
 
         addFieldsToList();
     }
 
-    private void addFieldsToList(){
+    private void addFieldsToList() {
 
         if(fields != null){
-            fields.add(firstName);
-            fields.add(lastName);
+            fields.add(businessName);
+            fields.add(category);
+            fields.add(latitude);
+            fields.add(longitude);
             fields.add(email);
             fields.add(pass);
             fields.add(confirmPass);
@@ -81,13 +83,10 @@ public class ConsumerRegisterActivity extends RegisterActivity {
             fields = new ArrayList<>();
             addFieldsToList();
         }
-
-
     }
 
     //Register listneres for click events for on screen ui elements
-    private void registerUiListeners(){
-
+    private void registerUiListeners() {
         if(nextButton != null){
             nextButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -99,17 +98,20 @@ public class ConsumerRegisterActivity extends RegisterActivity {
         }
     }
 
-    private void onNextButtonClicked(){
+    private void onNextButtonClicked() {
 
         if(clientSideValidate()){
             //Prepare post parameters
             HashMap<String,String> params = new HashMap<>();
-            params.put("firstName",firstName.getText().toString());
-            params.put("lastName",lastName.getText().toString());
+            params.put("businessName",businessName.getText().toString());
+            params.put("category",category.getText().toString());
+            params.put("latitude",latitude.getText().toString());
+            params.put("longitude",longitude.getText().toString());
             params.put("email",email.getText().toString());
             params.put("pass",pass.getText().toString());
 
-            findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+            findViewById(R.id.loadingPanel_business).setVisibility(View.VISIBLE);
+
             //Register the user
             registerUser(params);
 
@@ -118,8 +120,7 @@ public class ConsumerRegisterActivity extends RegisterActivity {
         }
     }
 
-
-    private boolean clientSideValidate(){
+    private boolean clientSideValidate() {
         boolean success = true;
 
         //First check if the fields are filled out
@@ -148,17 +149,15 @@ public class ConsumerRegisterActivity extends RegisterActivity {
         return success;
     }
 
-    //Called if registration failed due to volley error
     @Override
     public void onErrorResponse(VolleyError error) {
-        findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+        findViewById(R.id.loadingPanel_business).setVisibility(View.GONE);
         error.printStackTrace();
     }
 
-    //Called when we get back a server response of some sort we check the success here
     @Override
     public void onResponse(String response) {
-        findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+        findViewById(R.id.loadingPanel_business).setVisibility(View.GONE);
         try {
             JSONObject o = new JSONObject(response);
             if(o.getBoolean("success")){

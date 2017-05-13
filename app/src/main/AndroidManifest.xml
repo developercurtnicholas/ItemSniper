@@ -54,6 +54,10 @@
             android:theme="@style/NoActionBarAndNoTitle">
 
         </activity>
+        <activity android:name=".BusinessRegisterActivity"
+            android:theme="@style/NoActionBarAndNoTitle">
+
+        </activity>
 
         <activity android:name=".UploadPictureActivity"
             android:theme="@style/NoActionBarAndNoTitle">
