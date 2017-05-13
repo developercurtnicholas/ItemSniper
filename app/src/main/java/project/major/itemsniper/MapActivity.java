@@ -438,7 +438,7 @@ GoogleApiClient.OnConnectionFailedListener,
 
         //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
-       mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+       mMap.animateCamera(CameraUpdateFactory.zoomTo(8));
 
         //stop location updates
         if(mGoogleApiClient != null){
@@ -532,6 +532,7 @@ GoogleApiClient.OnConnectionFailedListener,
         //Query comes back from the server
         try{
             JSONObject o = new JSONObject(response);
+            Log.i("repsonse",response);
             boolean result = o.getBoolean("success");
 
             if(result){
