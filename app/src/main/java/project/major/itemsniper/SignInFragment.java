@@ -100,9 +100,12 @@ public class SignInFragment extends Fragment {
 
     //Do this when the business button is clicked
     private void onBusinessClicked(){
-        Intent iMap = new Intent(getContext(),MapActivity.class);
+        //Intent iMap = new Intent(getContext(),MapActivity.class);
+        //Intent iUploadPic = new Intent(getContext(),UploadPictureActivity.class);
+        Intent busi = new Intent(getContext(),BusinessRegisterActivity.class);
         Toast.makeText(getContext(),"business clicked", Toast.LENGTH_LONG).show();
-        startActivity(iMap);
+        startActivity(busi);
+        //startActivity(iUploadPic);
     }
 
 
@@ -180,6 +183,7 @@ public class SignInFragment extends Fragment {
 
                     }else{
                         Toast.makeText(getContext(),"Invalid Login",Toast.LENGTH_LONG).show();
+
                     }
                 }catch(Exception e){
                     e.printStackTrace();
