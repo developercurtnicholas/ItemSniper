@@ -50,6 +50,11 @@
             android:label="@string/app_name">
         </activity>
 
+        <activity android:name=".ItemActivity"
+            android:theme="@style/NoActionBarAndNoTitle">
+
+        </activity>
+
         <activity android:name=".ConsumerRegisterActivity"
             android:theme="@style/NoActionBarAndNoTitle">
 
