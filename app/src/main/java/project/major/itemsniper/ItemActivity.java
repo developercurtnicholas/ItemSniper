@@ -183,8 +183,6 @@ public class ItemActivity extends ViewActivity{
 
            }
        };
-
-
             Response.ErrorListener errorListener = new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {

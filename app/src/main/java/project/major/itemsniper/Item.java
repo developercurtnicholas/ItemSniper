@@ -218,7 +218,7 @@ public class Item implements Response.Listener<Bitmap>,Response.ErrorListener {
 
         error.printStackTrace();
         attempts++;
-        getVendorId();
+        getImage();
 
     }
     @Override
