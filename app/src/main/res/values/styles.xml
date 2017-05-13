@@ -20,7 +20,7 @@
 
 
     <style name="AppTheme.WhiteTextAppearance">
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">#FFF</item>
     </style>
 
 
