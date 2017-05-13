@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
@@ -30,8 +31,7 @@ public class CustomClusterRenderer extends DefaultClusterRenderer<MyItem>{
     protected void onBeforeClusterItemRendered(MyItem item, MarkerOptions markerOptions){
 
         //Sets icon for markers. Will to be updated.
-        final BitmapDescriptor marker= BitmapDescriptorFactory
-        .fromResource(R.drawable.utech_test);
+        final BitmapDescriptor marker= (BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
 
         //Assign item attributed to markers.
         markerOptions.icon(marker);
@@ -47,4 +47,8 @@ public class CustomClusterRenderer extends DefaultClusterRenderer<MyItem>{
         final Bitmap icon = clusterIcon.makeIcon(String.valueOf(cluster.getSize()));
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
     }
+
+    protected void onClusterItemRendered(MyItem clusterItem, Marker marker){
+      super.onClusterItemRendered(clusterItem,marker);
+  }
 }

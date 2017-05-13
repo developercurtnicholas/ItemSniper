@@ -11,34 +11,66 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/pictonBlue"
-        android.support.v7.appcompat:title="Nothing"
+        android:elevation="4dp"
         android.support.v7.appcompat:logo="@drawable/logo"
-        android:elevation="4dp">
+        android.support.v7.appcompat:title="Nothing">
 
-        <EditText
-            android:id="@+id/toolbar_search"
-            android:textColor="@color/lynchgray"
-            android:hint="Snipe An Item"
-            android:fontFamily="Droid Sans Mono"
-            android:textSize="20dp"
-            android:textColorHint="@color/silverGray"
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:background="@drawable/round_edit_text"
-            android:layout_width="match_parent"
-            android:layout_marginRight="13dp"
-            android:layout_height="50dp" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <EditText
+                android:id="@+id/map_search"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="13dp"
+                android:layout_weight="70"
+                android:background="@drawable/round_edit_text"
+                android:fontFamily="Droid Sans Mono"
+                android:hint="Snipe An Item"
+                android:padding="10dp"
+                android:textColor="@color/lynchgray"
+                android:textColorHint="@color/silverGray"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/map_search_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:text="Search"
+                android:onClick="onMapSearch"/>
+        </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
-
-    <android.support.design.widget.TabLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/pictonBlue"
-        android:id="@+id/main_tablayout"
-        app:tabTextAppearance="@style/TabLayoutTextStyle"
-        app:layout_scrollFlags="scroll|enterAlways"/>
+        android:orientation="horizontal"
+        android:background="@color/pictonBlue">
+        <Button
+            android:id="@+id/map_type_norm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Normal" />
+        <Button
+            android:id="@+id/map_type_hyb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Hybrid" />
 
+        <Button
+            android:id="@+id/map_type_sate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Satellite" />
+    </LinearLayout>
     <fragment
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
