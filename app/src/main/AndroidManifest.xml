@@ -63,6 +63,11 @@
             android:theme="@style/NoActionBarAndNoTitle">
 
         </activity>
+        <activity android:name=".LocationPickerActivity"
+            android:theme="@android:style/Theme.Dialog">
+
+        </activity>
+
 
     </application>
 
