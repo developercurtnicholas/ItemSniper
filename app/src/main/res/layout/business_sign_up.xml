@@ -55,7 +55,7 @@
                 android:id="@+id/business_latitude"
                 style="@style/sniperTextField"
                 android:hint="Latitude"
-                android:inputType="numberDecimal"
+                android:focusable="false"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -64,7 +64,6 @@
                 android:id="@+id/business_longitude"
                 style="@style/sniperTextField"
                 android:hint="Longitude"
-                android:inputType="numberDecimal"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
