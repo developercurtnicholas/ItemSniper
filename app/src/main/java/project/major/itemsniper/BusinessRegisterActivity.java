@@ -60,6 +60,16 @@ public class BusinessRegisterActivity extends RegisterActivity{
         businessName = (EditText)findViewById(R.id.business_name_field);
         category = (EditText)findViewById(R.id.business_category_field);
         latitude = (EditText) findViewById(R.id.business_latitude);
+        latitude.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent busi = new Intent(v.getContext(),LocationPickerActivity.class);
+                //Toast.makeText(getContext(),"business clicked", Toast.LENGTH_LONG).show();
+                startActivity(busi);
+
+            }
+        });
         longitude = (EditText) findViewById(R.id.business_longitude);
         email = (EditText)findViewById(R.id.business_email_field);
         pass = (EditText)findViewById(R.id.business_password_field);
