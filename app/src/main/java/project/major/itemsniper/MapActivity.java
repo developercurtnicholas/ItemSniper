@@ -64,6 +64,7 @@ GoogleApiClient.OnConnectionFailedListener,
     LocationRequest mLocationRequest;
     Location mLastLocation;
     Marker mCurrLocationMarker;
+    MarkerOptions markerOptions;
     ArrayList<LatLng> MarkerPoints;
     Button mapNorm;
     Button mapHybrid;
@@ -314,6 +315,7 @@ GoogleApiClient.OnConnectionFailedListener,
      private void addItems() {
          mMap.clear();
          mClusterManager.clearItems();
+         mCurrLocationMarker = mMap.addMarker(markerOptions);
          for(Item x : currentItemResults){
              mClusterManager.addItem(new MyItem(x.getLatitude(),x.getLongitude(),x.getName(),"YES"));
          }
@@ -427,7 +429,7 @@ GoogleApiClient.OnConnectionFailedListener,
 
         //Place current location marker
         LatLng latlng = new LatLng(location.getLatitude(),location.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions();
+         markerOptions = new MarkerOptions();
         markerOptions.position(latlng);
         markerOptions.title("Current Position");
         markerOptions.snippet("   You are here");
