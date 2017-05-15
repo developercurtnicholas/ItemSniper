@@ -12,6 +12,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.clustering.ClusterItem;
 
 import org.json.JSONObject;
 
@@ -226,4 +228,5 @@ public class Item implements Response.Listener<Bitmap>,Response.ErrorListener {
         this.image = response;
         Log.i("Success","got an image");
     }
+
 }
